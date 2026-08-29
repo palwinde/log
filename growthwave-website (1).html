@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowthWave — Digital Ads That Pay For Themselves</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F4EC;
+    --bg-card:#FFFFFF;
+    --bg-alt:#EFEBDD;
+    --ink:#14171F;
+    --ink-soft:#1B1F2A;
+    --ink-elevated:#232838;
+    --muted:#5C5F6C;
+    --muted-on-dark:#A6ABC0;
+    --line:#E1DCC9;
+    --line-on-dark:#333952;
+    --lime:#CFFF3E;
+    --lime-deep:#9FD400;
+    --coral:#FF3D6E;
+    --radius:20px;
+    --max:1180px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img,svg{display:block; max-width:100%;}
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 32px;}
+  h1,h2,h3{font-family:'Big Shoulders Display',sans-serif; font-weight:800; letter-spacing:-0.01em; line-height:0.98; text-transform:uppercase;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:13px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--coral); flex:none;}
+  .eyebrow.on-dark{color:var(--lime);}
+  .eyebrow.on-dark::before{background:var(--lime);}
+
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600; font-size:14px; letter-spacing:0.03em; text-transform:uppercase;
+    padding:16px 26px; border-radius:100px; border:2px solid transparent;
+    cursor:pointer; transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{background:var(--ink); color:var(--lime);}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(20,23,31,0.25);}
+  .btn-ghost{background:transparent; color:var(--ink); border-color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink); color:var(--bg);}
+  .btn-on-lime{background:var(--ink); color:var(--lime);}
+  .btn-on-lime:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,0.25);}
+  .btn-outline-dark{background:transparent; color:var(--bg); border-color:var(--line-on-dark);}
+  .btn-outline-dark:hover{border-color:var(--lime); color:var(--lime);}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(246,244,236,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    max-width:var(--max); margin:0 auto; padding:18px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{width:38px; height:38px; border-radius:10px; background:var(--ink); flex:none; display:flex; align-items:center; justify-content:center;}
+  .brand-name{font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:22px; letter-spacing:0.01em; text-transform:uppercase;}
+  .nav-links{display:flex; align-items:center; gap:36px;}
+  .nav-links a{font-size:14px; font-weight:600; color:var(--ink); position:relative; padding:4px 0;}
+  .nav-links a::after{content:""; position:absolute; left:0; bottom:-2px; width:0; height:2px; background:var(--coral); transition:width .2s ease;}
+  .nav-links a:hover::after{width:100%;}
+  .nav-links a.btn{color:var(--lime);}
+  .nav-links a.btn::after{display:none;}
+  .nav-cta{display:flex; align-items:center; gap:18px;}
+  .hamburger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px;}
+  .hamburger span{width:24px; height:2px; background:var(--ink);}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:88px 0 60px; position:relative;}
+  .hero-grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;}
+  .hero h1{font-size:clamp(46px,6vw,84px); margin-top:22px;}
+  .hero h1 .accent{color:transparent; -webkit-text-stroke:2px var(--ink);}
+  .hero h1 .underline-word{position:relative; display:inline-block;}
+  .hero h1 .underline-word svg{position:absolute; left:0; bottom:-10px; width:100%; height:16px;}
+  .hero p.sub{max-width:520px; margin-top:26px; font-size:19px; color:var(--muted);}
+  .hero-ctas{display:flex; gap:16px; margin-top:38px; flex-wrap:wrap;}
+  .trust-row{display:flex; gap:28px; margin-top:46px; flex-wrap:wrap;}
+  .trust-item{display:flex; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--muted); font-weight:500;}
+  .trust-item svg{width:18px; height:18px; flex:none; color:var(--lime-deep);}
+
+  .hero-visual{position:relative; background:var(--ink); border-radius:28px; padding:38px; overflow:hidden;}
+  .hero-visual .chip{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted-on-dark); letter-spacing:0.08em; text-transform:uppercase; display:flex; justify-content:space-between; align-items:center;}
+  .hero-visual .roi-pill{background:var(--lime); color:var(--ink); font-weight:700; padding:6px 14px; border-radius:100px; font-size:13px;}
+  .hero-chart{margin-top:26px;}
+  .hero-visual .cap{margin-top:18px; color:var(--muted-on-dark); font-size:13px; font-family:'IBM Plex Mono',monospace;}
+
+  /* wave divider */
+  .wave-divider{width:100%; height:70px; display:block; margin-top:-1px;}
+
+  /* ---------- SERVICES ---------- */
+  .section{padding:110px 0;}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .section-head h2{font-size:clamp(34px,4.4vw,54px); margin-top:16px;}
+  .section-head p{margin-top:18px; font-size:18px; color:var(--muted);}
+
+  .services-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:2px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  .service-card{background:var(--bg-card); padding:44px; transition:background .2s ease;}
+  .service-card:hover{background:var(--bg-alt);}
+  .service-icon{width:56px; height:56px; border-radius:14px; background:var(--bg); border:1.5px solid var(--ink); display:flex; align-items:center; justify-content:center; margin-bottom:22px;}
+  .service-icon svg{width:26px; height:26px; color:var(--ink);}
+  .service-card h3{font-size:24px; text-transform:none; letter-spacing:0; font-weight:700; margin-bottom:10px;}
+  .service-card p{color:var(--muted); font-size:15.5px;}
+  .service-num{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--muted); margin-bottom:14px; display:block;}
+
+  /* ---------- GROWTH / DARK BAND ---------- */
+  .band-dark{background:var(--ink-soft); color:var(--bg); position:relative;}
+  .band-dark .section-head p{color:var(--muted-on-dark);}
+  .band-dark .section-head h2{color:var(--bg);}
+  .chart-card{
+    background:var(--ink-elevated); border-radius:var(--radius); padding:48px;
+    border:1px solid var(--line-on-dark);
+  }
+  .chart-top{display:flex; justify-content:space-between; align-items:flex-start; gap:24px; flex-wrap:wrap; margin-bottom:44px;}
+  .chart-top .label{font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted-on-dark);}
+  .chart-top .roi-pill{background:var(--lime); color:var(--ink); font-weight:700; padding:10px 20px; border-radius:100px; font-family:'IBM Plex Mono',monospace; font-size:15px;}
+  .bars{display:flex; align-items:flex-end; gap:22px; height:260px; border-bottom:1px solid var(--line-on-dark); padding-bottom:0;}
+  .bar-col{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;}
+  .bar{width:100%; max-width:74px; border-radius:8px 8px 4px 4px; background:var(--lime); height:0%; transition:height 1.1s cubic-bezier(.2,.8,.2,1);}
+  .bar.final{background:var(--coral);}
+  .bar-month{margin-top:14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted-on-dark);}
+  .chart-foot{margin-top:20px; font-size:12.5px; color:var(--muted-on-dark); font-family:'IBM Plex Mono',monospace;}
+
+  /* ---------- PRICING ---------- */
+  .pricing-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .price-card{background:var(--bg-card); border:1.5px solid var(--line); border-radius:var(--radius); padding:40px 34px; display:flex; flex-direction:column;}
+  .price-card.featured{background:var(--ink); color:var(--bg); border-color:var(--ink); position:relative; transform:translateY(-14px);}
+  .price-card.featured .badge{position:absolute; top:-14px; left:34px; background:var(--lime); color:var(--ink); font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:700; padding:6px 14px; border-radius:100px; letter-spacing:0.05em;}
+  .plan-name{font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; color:var(--muted);}
+  .price-card.featured .plan-name{color:var(--muted-on-dark);}
+  .plan-price{font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:52px; margin:14px 0 4px; text-transform:uppercase;}
+  .plan-price small{font-family:'Inter',sans-serif; font-size:15px; font-weight:500; text-transform:none;}
+  .plan-desc{color:var(--muted); font-size:14.5px; margin-bottom:26px;}
+  .price-card.featured .plan-desc{color:var(--muted-on-dark);}
+  .plan-features{margin:0 0 30px; display:flex; flex-direction:column; gap:14px; flex:1;}
+  .plan-features li{display:flex; gap:10px; font-size:14.5px; align-items:flex-start;}
+  .plan-features svg{width:17px; height:17px; flex:none; margin-top:2px; color:var(--lime-deep);}
+  .price-card.featured .plan-features svg{color:var(--lime);}
+  .price-card .btn{justify-content:center; width:100%;}
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .testi-card{background:var(--bg-alt); border-radius:var(--radius); padding:36px; display:flex; flex-direction:column; justify-content:space-between; min-height:220px;}
+  .testi-quote{font-size:17px; line-height:1.5;}
+  .testi-who{margin-top:24px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--muted); letter-spacing:0.02em;}
+  .quote-mark{font-family:'Big Shoulders Display',sans-serif; font-size:44px; color:var(--coral); line-height:1; margin-bottom:6px; display:block;}
+
+  /* ---------- FINAL CTA ---------- */
+  .cta-band{background:var(--lime); border-radius:32px; padding:70px 56px; margin:0 32px; max-width:calc(var(--max) - 64px); margin-left:auto; margin-right:auto; display:flex; align-items:center; justify-content:space-between; gap:40px; flex-wrap:wrap;}
+  .cta-band h2{font-size:clamp(32px,4.6vw,52px); color:var(--ink); max-width:560px;}
+  .cta-band p{margin-top:14px; color:var(--ink); opacity:0.75; font-size:16px;}
+  .cta-band-right{display:flex; flex-direction:column; align-items:flex-start; gap:14px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink-soft); color:var(--bg); padding:70px 0 30px; margin-top:0;}
+  .footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding-bottom:50px; border-bottom:1px solid var(--line-on-dark);}
+  .footer-brand p{margin-top:16px; color:var(--muted-on-dark); font-size:14.5px; max-width:280px; font-style:italic; font-family:'IBM Plex Mono',monospace; font-style:normal;}
+  .footer-col h4{font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted-on-dark); margin-bottom:18px;}
+  .footer-col a, .footer-col span{display:block; font-size:14.5px; color:var(--bg); margin-bottom:12px; opacity:0.88;}
+  .footer-col a:hover{color:var(--lime); opacity:1;}
+  .footer-bottom{display:flex; justify-content:space-between; align-items:center; padding-top:26px; flex-wrap:wrap; gap:16px;}
+  .footer-bottom .legal{font-size:13px; color:var(--muted-on-dark); font-family:'IBM Plex Mono',monospace;}
+  .partner-badges{display:flex; gap:10px; flex-wrap:wrap;}
+  .partner-badges span{border:1px solid var(--line-on-dark); border-radius:100px; padding:7px 16px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted-on-dark);}
+
+  .reveal{opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:none;}
+
+  @media (max-width:920px){
+    .nav-links{display:none;}
+    .hamburger{display:flex;}
+    .nav-cta .btn-primary{display:none;}
+    .mobile-only-cta{display:inline-flex !important; width:fit-content;}
+    .hero-grid{grid-template-columns:1fr;}
+    .services-grid{grid-template-columns:1fr;}
+    .pricing-grid{grid-template-columns:1fr; gap:20px;}
+    .price-card.featured{transform:none;}
+    .testi-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr; row-gap:36px;}
+    .cta-band{flex-direction:column; align-items:flex-start; padding:44px 30px;}
+    .wrap{padding:0 20px;}
+  }
+</style>
+<noscript><style>.reveal{opacity:1!important; transform:none!important;} .bar{height:var(--fallback-h,60%)!important;}</style></noscript>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="brand">
+      <div class="brand-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 17 L8 10 L12 14 L22 4" stroke="#CFFF3E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 4 H22 V10" stroke="#CFFF3E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="brand-name">GrowthWave</span>
+    </div>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#results">Results</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="mobile-only-cta btn btn-primary" style="display:none;">Book Free Call</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-primary">Book Free Call</a>
+      <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Digital advertising that pays for itself</span>
+      <h1>Grow your<br>business <span class="underline-word">online<svg viewBox="0 0 220 16" preserveAspectRatio="none"><path d="M2 12 Q 55 2, 110 10 T 218 8" stroke="#FF3D6E" stroke-width="6" fill="none" stroke-linecap="round"/></svg></span></h1>
+      <p class="sub">Performance-driven Google &amp; Meta ad campaigns for small and growing businesses — built to fit a reasonable budget, not a big-agency price tag.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn btn-primary">Book a Free Strategy Call</a>
+        <a href="#pricing" class="btn btn-ghost">See Pricing</a>
+      </div>
+      <div class="trust-row">
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> No lock-in contracts</div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Weekly plain-English reports</div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Google &amp; Meta certified</div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="chip"><span>Live campaign signal</span><span class="roi-pill">+240% ROI</span></div>
+      <div class="hero-chart">
+        <svg viewBox="0 0 460 220" width="100%" height="220">
+          <line x1="0" y1="200" x2="460" y2="200" stroke="#333952" stroke-width="1"/>
+          <path id="waveline" d="M0,180 C 60,170 90,120 140,110 C 190,100 210,150 260,130 C 310,110 330,50 380,40 C 410,34 440,30 460,20"
+                fill="none" stroke="#CFFF3E" stroke-width="4" stroke-linecap="round"
+                stroke-dasharray="900" stroke-dashoffset="900"/>
+          <circle cx="460" cy="20" r="7" fill="#FF3D6E"/>
+        </svg>
+      </div>
+      <div class="cap">M1 → M6 · average client trend line</div>
+    </div>
+  </div>
+
+  <svg class="wave-divider" viewBox="0 0 1440 70" preserveAspectRatio="none">
+    <path d="M0,40 C 240,90 480,0 720,30 C 960,60 1200,10 1440,40 L1440,70 L0,70 Z" fill="#1B1F2A"></path>
+  </svg>
+</section>
+
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">What you get</span>
+      <h2>Everything a small ad budget needs — nothing it doesn't</h2>
+      <p>No bloated retainers or agency jargon. Just the four things that actually move sales.</p>
+    </div>
+
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <span class="service-num">01</span>
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg></div>
+        <h3>Precision Targeting</h3>
+        <p>Reach the exact people who are ready to buy — by location, interest and behaviour, not blind guesswork.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-num">02</span>
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2" stroke="currentColor" stroke-width="1.8"/><circle cx="5" cy="18" r="2" stroke="currentColor" stroke-width="1.8"/><circle cx="19" cy="18" r="2" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v6M12 13l-5.5 3.5M12 13l5.5 3.5" stroke="currentColor" stroke-width="1.8"/></svg></div>
+        <h3>Multi-Platform Reach</h3>
+        <p>Google, Instagram, Facebook &amp; YouTube campaigns planned and optimised from one place.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-num">03</span>
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10M11 20V4M18 20v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Real Results, Real Reports</h3>
+        <p>Weekly, plain-language reports so you always know exactly what your ad spend is doing.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-num">04</span>
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v10M9 9.5c0-1.2 1.3-2 3-2s3 .9 3 2-1.3 1.8-3 2-3 .8-3 2 1.3 2 3 2 3-.8 3-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>Budget-Friendly Plans</h3>
+        <p>Packages built for small business budgets — no bloated retainers, no confusing jargon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section band-dark" id="results">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow on-dark">The kind of growth we aim for</span>
+      <h2>Sales trend across a typical<br>6-month campaign</h2>
+    </div>
+
+    <div class="chart-card reveal">
+      <div class="chart-top">
+        <span class="label">Average client sales growth</span>
+        <span class="roi-pill">+240% avg. ROI</span>
+      </div>
+      <div class="bars" id="bars">
+        <div class="bar-col"><div class="bar" data-h="26"></div><span class="bar-month">M1</span></div>
+        <div class="bar-col"><div class="bar" data-h="38"></div><span class="bar-month">M2</span></div>
+        <div class="bar-col"><div class="bar" data-h="52"></div><span class="bar-month">M3</span></div>
+        <div class="bar-col"><div class="bar" data-h="66"></div><span class="bar-month">M4</span></div>
+        <div class="bar-col"><div class="bar" data-h="84"></div><span class="bar-month">M5</span></div>
+        <div class="bar-col"><div class="bar final" data-h="100"></div><span class="bar-month">M6</span></div>
+      </div>
+      <div class="chart-foot">*Illustrative average across recent client campaigns — your results depend on industry, budget and offer.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Simple, honest pricing</span>
+      <h2>Plans that scale with your budget</h2>
+      <p>Start small, prove it works, then scale up. Cancel or switch plans any time.</p>
+    </div>
+
+    <div class="pricing-grid reveal">
+      <div class="price-card">
+        <span class="plan-name">Starter</span>
+        <div class="plan-price">₹500<small>/week</small></div>
+        <p class="plan-desc">For businesses just starting with paid ads.</p>
+        <ul class="plan-features">
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> One ad platform (Google or Meta)</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Weekly performance report</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Basic audience targeting</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Email support</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost">Get Started</a>
+      </div>
+
+      <div class="price-card featured">
+        <span class="badge">Most Popular</span>
+        <span class="plan-name">Growth</span>
+        <div class="plan-price">₹1,499<small>/week</small></div>
+        <p class="plan-desc">For businesses ready to run real campaigns.</p>
+        <ul class="plan-features">
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Google + Meta, run together</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Weekly report + strategy call</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Advanced targeting &amp; retargeting</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Priority support</li>
+        </ul>
+        <a href="#contact" class="btn btn-on-lime">Get Started</a>
+      </div>
+
+      <div class="price-card">
+        <span class="plan-name">Scale</span>
+        <div class="plan-price" style="font-size:40px;">Custom</div>
+        <p class="plan-desc">For businesses ready to scale hard.</p>
+        <ul class="plan-features">
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> All platforms incl. YouTube</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Dedicated account manager</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Custom creative &amp; landing pages</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Monthly strategy session</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost">Talk to Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="testimonials" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Client feedback</span>
+      <h2>What businesses like yours say</h2>
+    </div>
+    <div class="testi-grid reveal">
+      <div class="testi-card">
+        <div><span class="quote-mark">"</span><p class="testi-quote">Our leads doubled within the first month, without doubling our budget.</p></div>
+        <div class="testi-who">— Placeholder review · Local bakery owner</div>
+      </div>
+      <div class="testi-card">
+        <div><span class="quote-mark">"</span><p class="testi-quote">Finally an agency that explains what they're doing in plain English, every week.</p></div>
+        <div class="testi-who">— Placeholder review · Boutique store owner</div>
+      </div>
+      <div class="testi-card">
+        <div><span class="quote-mark">"</span><p class="testi-quote">Straightforward reporting, no jargon, and results we could actually see.</p></div>
+        <div class="testi-who">— Placeholder review · Fitness studio owner</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact" style="padding-top:0;">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <div>
+        <h2>Ready to grow?</h2>
+        <p>Book a free 20-minute strategy call — we'll tell you honestly whether ads make sense for your business right now.</p>
+      </div>
+      <div class="cta-band-right">
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand">
+          <div class="brand-mark">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 17 L8 10 L12 14 L22 4" stroke="#CFFF3E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 4 H22 V10" stroke="#CFFF3E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="brand-name">GrowthWave</span>
+        </div>
+        <p>Bring us your budget — we'll build the plan around it.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#services">Services</a>
+        <a href="#results">Results</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#testimonials">Reviews</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Studio</h4>
+        <span>Digital Ads Studio</span>
+        <span>Now booking · August</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="legal">© 2026 GrowthWave Digital. All rights reserved.</span>
+      <div class="partner-badges">
+        <span>Google Ads Partner</span>
+        <span>Meta Business Partner</span>
+        <span>Pay-as-you-grow plans</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // mobile nav toggle
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  hamburger.addEventListener('click', () => {
+    const open = navLinks.style.display === 'flex';
+    navLinks.style.display = open ? 'none' : 'flex';
+    navLinks.style.cssText += 'position:absolute; top:100%; left:0; right:0; background:var(--bg); flex-direction:column; padding:24px 32px; border-bottom:1px solid var(--line); gap:20px;';
+  });
+
+  // hero waveline draw-in
+  window.addEventListener('load', () => {
+    const line = document.getElementById('waveline');
+    requestAnimationFrame(() => { line.style.transition = 'stroke-dashoffset 1.6s cubic-bezier(.2,.8,.2,1)'; line.style.strokeDashoffset = '0'; });
+  });
+
+  // scroll reveal + bar chart animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        if (entry.target.id === 'bars') {
+          entry.target.querySelectorAll('.bar').forEach(bar => {
+            bar.style.height = bar.dataset.h + '%';
+          });
+        }
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.reveal, #bars').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
